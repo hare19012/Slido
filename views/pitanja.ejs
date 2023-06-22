@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/07758f63a4.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/stylesheets/pitanja.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pitanja</title>
+</head>
+<body>
+<div class="container text-left">
+    <div class="row">
+        <div class="col">
+            <h1 style="font-family: fantasy;font-size: 55px"><%=naziv%></h1>
+        </div>
+        <div class="col">
+            <a href="/users/vani" style="text-decoration: none"><h1 style="text-align: right;color: green"><i class="fas fa-sign-out-alt"></i></h1></a>
+        </div>
+    </div>
+
+</div>
+<div class="container">
+    <div id="poruke">
+
+    </div>
+</div>
+<div class="container unos">
+    <div class="row"><input type="text" id="polje" class="form-control" placeholder="Unesite pitanje" style="margin: 10px"></div>
+    <div class="row drugi"><button type="button" onclick="salji()" class="btn btn-success" style="width: 15%;margin: 10px">Spasi</button></div>
+</div>
+
+
+</body>
+</html>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+    window.onload = function() {
+        console.log("haris");
+        setTimeout(function() {
+            document.getElementById("polje").scrollIntoView();
+        }, 1000);
+
+    };
+
+    var socket = io.connect('ws://localhost:3000');
+    socket.emit('Joino se klijent',"<%=kod%>");
+    function lajkaj(id){
+        socket.emit('Lajko',id,"<%=kod%>");
+    }
+    function salji(){
+        var poruka = document.getElementById('polje').value;
+        document.getElementById('polje').value = '';
+        if(poruka !== "")
+            socket.emit('Salje poruku',poruka,"<%=kod%>");
+
+    }
+    socket.on('POVECAJ LAJKOVE',function (id){
+        var nova = document.getElementById(id).innerHTML;
+        let nova1 = parseInt(nova);
+        ++nova1;
+        let najnovija = document.getElementById(id);
+        najnovija.innerHTML = nova1.toString();
+    });
+    let ideovi = [];
+    socket.on('Sve poruke',function (poruka,cover,odgovori,odgovori2){
+        const div = document.querySelector('#poruke');
+        if (!div.innerHTML.trim().length) {
+            console.log(cover[0].cover);
+            let string = cover[0].cover;
+            let noviString = string.substring(6);
+            var imgElement = document.createElement('img');
+            imgElement.src = noviString;
+            imgElement.style.width = "100%";
+            imgElement.style.height = "100%";
+            imgElement.style.position = "fixed";
+            imgElement.style.top = "0";
+            imgElement.style.left = "0";
+            imgElement.style.zIndex = "-1";
+            document.body.appendChild(imgElement);
+            for (let i = 0; i < poruka.length; i++){
+                var nova = document.createElement('div');
+                nova.setAttribute('class','alert alert-success rok');
+                var novi1 = document.createElement('div');
+                novi1.setAttribute('class','row');
+                var novi2 = document.createElement('div');
+                var novi3 = document.createElement('div');
+                novi2.setAttribute('class','col');
+                var like = document.createElement('i');
+                like.setAttribute('class','fas fa-thumbs-up');
+                like.onclick = function() {
+                    if(!ideovi.includes(poruka[i].id)){
+                        ideovi.push(poruka[i].id);
+                        this.setAttribute('style','color:blue');
+                        lajkaj(poruka[i].id);
+                    }
+
+
+                };
+
+
+                var broj = document.createElement('span');
+                broj.innerHTML = poruka[i].broj_lajkova;
+                broj.setAttribute('style','margin-right:3px;');
+                broj.setAttribute('id',`${poruka[i].id}`);
+                novi2.appendChild(broj);
+                novi2.appendChild(like);
+                novi3.setAttribute('class','col-10');
+                novi3.innerHTML = poruka[i].pitanje;
+                novi1.appendChild(novi2);
+                novi1.appendChild(novi3);
+                nova.appendChild(novi1);
+
+                var glavna =  document.getElementById('poruke');
+                glavna.appendChild(nova);
+            }
+
+        }
+
+
+    });
+    socket.on('Svima poruka',function (poruka){
+        console.log(poruka);
+        var id = Math.floor(Math.random() * 1000000);
+        var nova = document.createElement('div');
+        nova.setAttribute('class','alert alert-success rok');
+        nova.setAttribute('style','background-color:aquamarine');
+        nova.setAttribute('id', `ovo-${id}`);
+        var novi1 = document.createElement('div');
+        novi1.setAttribute('class','row');
+        var novi2 = document.createElement('div');
+        var novi3 = document.createElement('div');
+        novi2.setAttribute('class','col');
+        var like = document.createElement('i');
+        like.setAttribute('class','fas fa-thumbs-up');
+        like.onclick = function() {
+            if(!ideovi.includes(poruka[0].id)){
+                ideovi.push(poruka[0].id);
+                this.setAttribute('style','color:blue');
+                lajkaj(poruka[0].id);
+            }
+
+        };
+
+
+        var broj = document.createElement('span');
+        broj.innerHTML = poruka[0].broj_lajkova;
+        broj.setAttribute('style','margin-right:3px;');
+        broj.setAttribute('id',`${poruka[0].id}`);
+        novi2.appendChild(broj);
+        novi2.appendChild(like);
+        novi3.setAttribute('class','col-10');
+        novi3.innerHTML = poruka[0].pitanje;
+        novi1.appendChild(novi2);
+        novi1.appendChild(novi3);
+        nova.appendChild(novi1);
+        var glavna =  document.getElementById('poruke');
+        glavna.appendChild(nova);
+        setTimeout(function() {
+            document.getElementById("polje").scrollIntoView();
+        }, 0);
+        setTimeout(function() {
+            document.getElementById(`ovo-${id}`).style.backgroundColor = '#d4edda ';
+        }, 2000);
+
+    });
+    socket.on('IZBRISANO',function(id){
+        let prvi = document.getElementById(id);
+        let drugi = prvi.parentNode;
+        let treci = drugi.parentNode;
+        treci.innerHTML = `<p>` + "Pitanje je poništeno" + `</p>`;
+        treci.setAttribute('style','font-style:italic;text-align:right')
+
+    });
+    socket.on('ODGOVORENO',function(id,poruka){
+        let prvi = document.getElementById(id);
+        let drugi = prvi.parentNode;
+        let treci = document.createElement('i');
+        treci.setAttribute('class','fa-solid fa-check');
+        treci.setAttribute('style','font-style:italic;margin-left:2px;color:blue')
+        drugi.appendChild(treci);
+
+
+    });
+    var enter = document.getElementById("polje");
+    enter.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            salji();
+        }
+    });
+
+</script>

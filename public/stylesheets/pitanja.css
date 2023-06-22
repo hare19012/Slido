@@ -1,0 +1,17 @@
+*,body{
+    padding: 0;
+    margin: 0;
+}
+.rok{
+    text-align: right;
+}
+.unos input[type=text]{
+    width: 50%;
+}
+.unos .drugi{
+    margin-top: -15px;
+    margin-bottom:10px;
+}
+.fa-thumbs-up {
+    cursor: pointer;
+}

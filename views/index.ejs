@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <title>PMF</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+<h1><%= title %></h1>
+<table class="table">
+  <%for(let i = 0;i<employees.length;i++){%>
+  <tr>
+    <td><%=employees[i].id%></td>
+    <td><%=employees[i].first_name%></td>
+    <td><%=employees[i].last_name%></td>
+    <td><%=employees[i].city%></td>
+
+  </tr>
+  <%}%>
+  <br>
+  <table class="table">
+    <%for(let i = 0;i<region.length;i++){%>
+    <tr>
+      <td><%=region[i].region_id%></td>
+      <td><%=region[i].region_description%></td>
+
+
+
+    </tr>
+    <%}%>
+
+  </table>
+
+</table>
+</body>
+</html>

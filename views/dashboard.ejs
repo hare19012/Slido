@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Slido</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/sli-do.jpg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/sli-do.jpg">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/dashboard.css">
+
+</head>
+<body>
+<preheader>
+    <div class="preheader ">
+        <div class="prvi">
+            <a href="/users/dashboard"><i class="fa fa-user" aria-hidden="true" style="margin-left: 10px"></i></a>
+            <span style="margin-left: 5px;font-family: fantasy;font-size: 20px"><%=user%></span>
+
+
+        </div>
+        <div class="prvi"style="text-align: right">
+            <a href="/users/logout" style="font-size: 20px;font-family: fantasy;color: black;text-decoration: none"><i class="fas fa-sign-out-alt"></i>Odjavi se</a>
+
+
+        </div>
+
+
+    </div>
+</preheader>
+<div class="container predavanja">
+    <div class="row prvi">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+            Dodaj predavanje
+        </button>
+    </div>
+    <div class="row drugi" id="drugired">
+        <table class="table table-dark" id="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Kod</th>
+                <th>Ime</th>
+                <th>Vrijeme</th>
+                <th style="width: 20%"><span style="margin-right: 5px">Ukupan broj lajkova</span><i class="fa-solid fa-sort-up" onclick="sortiraj()" style="cursor: pointer"></i></th>
+                <th style="width: 20%"><span style="margin-right: 5px">Ukupan broj odgovorenih</span><i class="fa-solid fa-sort-up" onclick="sortiraj1()" style="cursor: pointer"></i></th>
+
+                <th style="width: 10%"></th>
+                <th style="width: 10%"></th>
+            </tr>
+            </thead>
+            <tbody id="tijelo">
+            <%if(predavanja.length>0){%>
+            <%for(let i = 0;i<predavanja.length;i++){%>
+            <tr>
+                <th scope="row"><%=i+1%></th>
+                <td>
+                    <%=predavanja[i].kod%>
+                    <a href="<%="/users/edituj/" + predavanja[i].id%>"  style="margin-left: 10px"><i class="fas fa-edit"></i></a>
+                </td>
+                <td>
+                    <%=predavanja[i].ime%>
+                    <a href="<%="/users/edituj/" + predavanja[i].kod%>"  style="margin-left: 10px"><i class="fas fa-edit"></i></a>
+                </td>
+                <td>
+                    <%=predavanja[i].vrijeme%>
+                    <a href="<%="/users/edituj/" + predavanja[i].kod%>"  style="margin-left: 10px"><i class="fas fa-edit"></i></a>
+
+                </td>
+                <td id="<%=predavanja[i].kod%>">
+                    <%=predavanja[i].ukupan_broj_lajkova%>
+
+                </td>
+                <td id="<%=predavanja[i].kod%>">
+                    <%=predavanja[i].ukupan_broj_odgovorenih%>
+
+                </td>
+                <td>
+                    <a href="<%="/users/kod/" + predavanja[i].kod%>"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
+                    <a href="<%="/users/brisi/" + predavanja[i].id%>"  style="margin-left: 10px"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                </td>
+                <td>
+                    <a href="<%="/users/predavac/" + predavanja[i].kod%>"><i class="fas fa-user-plus"></i></a>
+                </td>
+
+
+            </tr>
+            <%}}%>
+            </tbody>
+
+
+        </table>
+    </div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title" id="exampleModalLabel" style="font-size: 25px;font-family: fantasy;color: black">Unesite podatke o predavanju</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/users/dashboard" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="lead_id" class="col-form-label">Kod:</label>
+                        <input type="text" class="form-control" id="lead_id" name="kod">
+                    </div>
+                    <div class="mb-3">
+                        <label for="first_name" class="col-form-label">Naziv:</label>
+                        <input type="text" class="form-control" id="first_name" name="ime">
+                    </div>
+                    <div class="mb-3">
+                        <label for="time" class="col-form-label">Vrijeme:</label>
+                        <input type="time" class="form-control" id="time" name="vrijeme">
+                    </div>
+                    <div class="mb-3">
+                        <label for="date" class="col-form-label">Datum isteka:</label>
+                        <input type="date" class="form-control" id="date" name="datum">
+                    </div>
+                    <div class="mb-3">
+                        <label for="cover" class="col-form-label">Cover:</label>
+                        <input type="file" accept="image/*" class="form-control" id="cover" name="image" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nazad</button>
+                        <button type="submit" class="btn btn-primary">Spasi</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script-->
+<script src="https://kit.fontawesome.com/07758f63a4.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<script>
+    function sortiraj(){
+        $.ajax({
+            url:'/users/sortiraj',
+            method: 'GET',
+            success:function (data){
+                $("#tijelo").empty();
+                for (var i = 0; i < data.length; i++) {
+                    var item = data[i];
+                    var row = $("<tr>");
+                    row.append("<td style='font-weight: bold'>" + (i+1) + "</td>");
+                    row.append("<td>" + item.kod + "<a href='/users/edituj/" + item.id + "' style='margin-left: 10px'><i class='fas fa-edit'></i></a>" + "</td>");
+                    row.append("<td>" + item.ime + "<a href='/users/edituj/" + item.kod + "' style='margin-left: 10px'><i class='fas fa-edit'></i></a>" + "</td>");
+                    row.append("<td>" + item.vrijeme + "<a href='/users/edituj/" + item.kod + "' style='margin-left: 10px'><i class='fas fa-edit'></i></a>" + "</td>")
+                    row.append("<td>" + item.ukupan_broj_lajkova + "</td>");
+                    row.append("<td>" + item.ukupan_broj_odgovorenih + "</td>");
+                    row.append("<td><a href='/users/kod/" + item.kod + "'><i class='fa fa-share-alt' aria-hidden='true'></i></a>" + "<a href='/users/brisi/" + item.id + "' style='margin-left: 10px'><i class='fa fa-trash' aria-hidden='true'></i></a>" + "</td>");
+                    row.append("<td><a href='/users/kod/predavac/" + item.kod + "'><i class='fas fa-user-plus'></i></a>" + "</td>")
+                    $("#tijelo").append(row);
+
+                }
+
+
+            },
+        })
+    }
+    function sortiraj1(){
+        $.ajax({
+            url:'/users/sortiraj1',
+            method: 'GET',
+            success:function (data){
+                $("#tijelo").empty();
+                for (var i = 0; i < data.length; i++) {
+                    var item = data[i];
+                    var row = $("<tr>");
+                    row.append("<td style='font-weight: bold'>" + (i+1) + "</td>");
+                    row.append("<td>" + item.kod + "<a href='/users/edituj/" + item.id + "' style='margin-left: 10px'><i class='fas fa-edit'></i></a>" + "</td>");
+                    row.append("<td>" + item.ime + "<a href='/users/edituj/" + item.kod + "' style='margin-left: 10px'><i class='fas fa-edit'></i></a>" + "</td>");
+                    row.append("<td>" + item.vrijeme + "<a href='/users/edituj/" + item.kod + "' style='margin-left: 10px'><i class='fas fa-edit'></i></a>" + "</td>")
+                    row.append("<td>" + item.ukupan_broj_lajkova + "</td>");
+                    row.append("<td>" + item.ukupan_broj_odgovorenih + "</td>");
+                    row.append("<td><a href='/users/kod/" + item.kod + "'><i class='fa fa-share-alt' aria-hidden='true'></i></a>" + "<a href='/users/brisi/" + item.id + "' style='margin-left: 10px'><i class='fa fa-trash' aria-hidden='true'></i></a>" + "</td>");
+                    row.append("<td><a href='/users/kod/predavac/" + item.kod + "'><i class='fas fa-user-plus'></i></a>" + "</td>")
+                    $("#tijelo").append(row);
+
+                }
+
+
+            },
+        })
+    }
+</script>
+</body>
+</body>
+</html>
+

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Slido</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/sli-do.jpg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/sli-do.jpg">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/login.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<div class="preheader ">
+    <div class="prvi text-center">
+        <img src="/images/sli-do.jpg" style="width: 90px">
+
+
+    </div>
+
+
+</div>
+<div class="container hero">
+    <%if(messages.uspjeh5){%>
+    <span style="color: red"><%=messages.uspjeh5%></span>
+    <%}%>
+    <form action="/users/pitanja" method="post" style="text-align: center" class="fora1">
+        <label for="kod" style="font-family: fantasy">Kod</label>
+        <input type="text" id="kod" name="kod" placeholder="Vaš kod.." style="color: black">
+    </form>
+    <%if(messages.uspjeh){%>
+    <span><i class="fa-solid fa-check"></i></span>
+    <span><%=messages.uspjeh%></span>
+    <%}%>
+    <%if(messages.uspjeh1){%>
+    <p><%=messages.uspjeh1%></p>
+    <%}%>
+
+    <form class="fora" action="/users/login" method="POST">
+        <label for="mail" style="font-family: fantasy">E-Mail</label>
+        <input type="email" id="mail" name="email" placeholder="Vaš mail.." style="color: black">
+        <label for="fname" style="font-family: fantasy">Lozinka</label>
+        <input type="password" id="fname" name="password" placeholder="Vaša lozinka.." style="color: black">
+
+
+
+
+
+        <div class="row text-center lel" style="margin-bottom: 5px">
+            <input type="submit"  value="Loguj se" style="font-family: fantasy">
+
+        </div>
+        <div class="row text-center le">
+            <a href="/users/register" style="font-family: fantasy">Kreirajte novi korisnički račun</a>
+        </div>
+
+    </form>
+</div>
+<footer>
+    <div class="container">
+        <div class="row text-center kraj">
+            <i class="fas fa-copyright"></i>
+            <span>2023</span>
+        </div>
+    </div>
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/07758f63a4.js" crossorigin="anonymous"></script>
+</body>
+</html>

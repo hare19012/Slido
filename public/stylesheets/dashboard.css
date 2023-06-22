@@ -1,0 +1,28 @@
+*{
+  padding: 0px;
+  margin: 0px;
+  color: black;
+}
+body{
+  background-color: dimgrey;
+}
+.preheader{
+  background-color:gray;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.preheader .prvi{
+  display: inline-block;
+  width: 49%;
+  vertical-align: middle;
+}
+.preheader .prvi i{
+  font-size: 25px;
+}
+.predavanja .drugi table{
+  margin-top: 10px;
+
+}
+.predavanja .prvi button{
+  margin: 5px;
+}
