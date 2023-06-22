@@ -1,10 +1,12 @@
+# Slido
+
 Kreirati aplikaciju koja će pomoći u interakciji publike tokom predavanja, konferencija i drugih sličnih događaja.
 
 Aplikacija se sastoji od više modula, te je predviđena za korištenje različitim tipovima korisnika:
 
-# administrator sistema;
-# predavač;
-# publika.
+## administrator sistema;
+## predavač;
+## publika.
 
 Administrator sistema je korisnik koji ima osnovnu kontrolu kad dešavanjima u sistemu. Može raditi CRUD operacija nad svim šifrarnicima (lookup tabelama), može brisati postojeće korisnike, te ih može blokirati na period od 15 ili 30 dana. Administrator sistema vidi sva zakazana predavanja, te može brisati buduća predavanja. Više korisnika može imati ulogu administratora sistema. Admin korisnici se dodaju direktno kroz bazu podataka.
 
